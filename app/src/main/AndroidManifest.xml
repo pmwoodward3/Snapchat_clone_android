@@ -17,6 +17,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".SignUpActivity"
+            android:label="@string/title_activity_sign_up"
+            android:parentActivityName="com.sz.stanzhao.snapchat_clone_android.LoginActivity"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

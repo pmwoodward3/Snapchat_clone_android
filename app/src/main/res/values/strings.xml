@@ -2,9 +2,8 @@
 <resources>
 
     <string name="app_name">Snapchat_clone_android</string>
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
+    <string name="title_section1">Inbox</string>
+    <string name="title_section2">Buddies</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_logout">Logout</string>
     <string name="username_hint">Username</string>
@@ -19,6 +18,8 @@
     <string name="sign_up_error_title">Oh No!</string>
     <string name="login_error_msg">Please enter a valid userman and password!</string>
     <string name="login_error_title">Oh No!</string>
+    <string name="empty_inbox_label">No new messages!</string>
+    <string name="empty_friends_label">You dont\'t have any buddies yet!</string>
 
 
 </resources>

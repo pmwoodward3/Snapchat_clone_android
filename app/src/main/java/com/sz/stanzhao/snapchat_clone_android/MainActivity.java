@@ -1,7 +1,9 @@
 package com.sz.stanzhao.snapchat_clone_android;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
@@ -19,6 +21,23 @@ import com.parse.ParseUser;
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
     public static final String TAG = MainActivity.class.getSimpleName();
+
+    protected DialogInterface.OnClickListener mDialogListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch(which){
+
+                case 0: //take pic
+                    break;
+                case 1: //take vid
+                    break;
+                case 2: //choose pic
+                    break;
+                case 3: //choose vid
+                    break;
+            }
+        }
+    };
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -104,19 +123,27 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         return true;
     }
 
+    //menu: log out camera....etc
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
            //LOGGIN OUT
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            ParseUser.logOut();
-            navigateToLogin();
-        }
-        else if (id == R.id.action_edit_friend){
-            // if edit buddy is tapped start new activity
-            Intent intent = new Intent(this, EditFriendActivity.class );
-            startActivity(intent);
+        switch(id){
+
+            case R.id.action_settings:
+                ParseUser.logOut();
+                navigateToLogin();
+            case R.id.action_edit_friend:
+                // if edit buddy is tapped start new activity
+                Intent intent = new Intent(this, EditFriendActivity.class );
+                startActivity(intent);
+                //CAMERA
+            case R.id.action_camera:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setItems(R.array.camera_choices, mDialogListener);
+                AlertDialog dialog = builder.create();
+                dialog.show();
         }
         return super.onOptionsItemSelected(item);
     }

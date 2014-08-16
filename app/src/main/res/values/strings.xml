@@ -20,6 +20,9 @@
     <string name="login_error_title">Oh No!</string>
     <string name="empty_inbox_label">No new messages!</string>
     <string name="empty_friends_label">You dont\'t have any buddies yet!</string>
-
+    <string name="menue_add_friend_label">Edit Buddylist</string>
+    <string name="title_activity_edit_friend">Edit Buddylist</string>
+    <string name="action_settings">Settings</string>
+    <string name="generic_error_title">Sorry!</string>
 
 </resources>

@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 
 import com.parse.ParseAnalytics;
 import com.parse.ParseUser;
@@ -37,6 +38,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_main);
 
         ParseAnalytics.trackAppOpened(getIntent());
@@ -106,9 +108,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     public boolean onOptionsItemSelected(MenuItem item) {
            //LOGGIN OUT
         int id = item.getItemId();
+
         if (id == R.id.action_settings) {
             ParseUser.logOut();
             navigateToLogin();
+        }
+        else if (id == R.id.action_edit_friend){
+            // if edit buddy is tapped start new activity
+            Intent intent = new Intent(this, EditFriendActivity.class );
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

@@ -5,7 +5,10 @@ import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -13,14 +16,27 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.Toast;
 
 import com.parse.ParseAnalytics;
 import com.parse.ParseUser;
+
+import java.io.File;
 
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
     public static final String TAG = MainActivity.class.getSimpleName();
+
+    public static final int TAKE_PHOTO_REQUEST = 0;
+    public static final int TAKE_VIDEO_REQUEST = 1;
+    public static final int PICK_PHOTO_REQUEST = 2;
+    public static final int PICK_VIDEO_REQUEST = 3;
+
+    public static final int MEDIA_TYPE_IMAGE = 4;
+    public static final int MEDIA_TYPE_VIDEO = 5;
+
+    protected Uri mMediaUri;
 
     protected DialogInterface.OnClickListener mDialogListener = new DialogInterface.OnClickListener() {
         @Override
@@ -28,8 +44,20 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             switch(which){
 
                 case 0: //take pic
+                    Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    mMediaUri = getOutPutMediaFileUri(MEDIA_TYPE_IMAGE);
+                    if(mMediaUri == null){
+                        //display error
+                        Toast.makeText(MainActivity.this,R.string.error_external_storage,Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
+                        startActivityForResult(takePhotoIntent, TAKE_PHOTO_REQUEST);
+                    }
                     break;
                 case 1: //take vid
+                    Intent takeVideoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(takeVideoIntent,TAKE_PHOTO_REQUEST);
                     break;
                 case 2: //choose pic
                     break;
@@ -37,7 +65,38 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     break;
             }
         }
+        private Uri getOutPutMediaFileUri(int mediaTypeImage) {
+            // To be safe, you should check that the SDCard is mounted
+            // using Environment.getExternalStorageState() before doing this.
+
+            if (isExternalStorageAvailable()){
+                // get the URI
+
+                //1. Get the external storage
+                String appName = MainActivity.this.getString(R.string.app_name);
+                File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), appName);
+
+                //2. create subdirectory
+
+                //3.
+                return null;
+            }
+            else {
+                return null;
+            }
+        }
+
+        private boolean isExternalStorageAvailable(){
+
+            String state = Environment.getExternalStorageState();
+
+            if(state.equals(Environment.MEDIA_MOUNTED)){
+                return true;
+            }
+            else return false;
+        }
     };
+
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide

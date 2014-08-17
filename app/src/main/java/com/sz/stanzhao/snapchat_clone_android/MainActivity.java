@@ -22,6 +22,9 @@ import com.parse.ParseAnalytics;
 import com.parse.ParseUser;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
@@ -65,7 +68,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     break;
             }
         }
-        private Uri getOutPutMediaFileUri(int mediaTypeImage) {
+        private Uri getOutPutMediaFileUri(int mediaType) {
             // To be safe, you should check that the SDCard is mounted
             // using Environment.getExternalStorageState() before doing this.
 
@@ -77,9 +80,33 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), appName);
 
                 //2. create subdirectory
+                if(! mediaStorageDir.exists()){
+                    if(mediaStorageDir.mkdir()){
+                        Log.e(TAG, "Failed to create directory");
+                        return null;
+                    }
+                }
+                //3.create file name
 
-                //3.
-                return null;
+                //4.create the file
+                File mediaFile;
+                Date now = new Date();
+                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(now);
+
+                String path = mediaStorageDir.getPath() + File.separator;
+                if(mediaType == MEDIA_TYPE_IMAGE){
+                    mediaFile = new File(path + "'IMG_" + timeStamp + ".jpg");
+                }
+                else if (mediaType == MEDIA_TYPE_VIDEO){
+                    mediaFile = new File(path + "'VID_" + timeStamp + ".mp4");
+                }
+                else{
+                    return null;
+                }
+
+                Log.d(TAG, "File: " + Uri.fromFile(mediaFile));
+                //5. return the file's URI
+                return Uri.fromFile(mediaFile);
             }
             else {
                 return null;
